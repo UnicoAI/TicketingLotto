@@ -76,7 +76,14 @@ $carouselResult = mysqli_query($conn, "SELECT * FROM lotteries WHERE is_active=1
         ?>
     </ul>
 </div>
-
+<!-- Tabs Content| Human-Friendly Name | Stored in DB as (`category`) | Used as `data-category` |
+| ------------------- | ---------------------------- | ----------------------- |
+| Ending Soon         | `ending-soon`                | `ending-soon`           |
+| Instant Wins        | `instant-wins`               | `instant-wins`          |
+| Cars & Bikes        | `cars-and-bikes`             | `cars-and-bikes`        |
+| Cash                | `cash`                       | `cash`                  |
+| Tech & Luxury       | `tech-and-luxury`            | `tech-and-luxury`       |
+ -->
 <!-- Cards Grid -->
 <div class="container my-5">
     <div class="row row-cols-1 row-cols-md-4 g-4" id="lotteryGrid">
