@@ -78,7 +78,7 @@ $stmt->fetch();
 $stmt->close();
 
 $conn->close();
-$referral_link = "http://localhost/UNICOINWEB3/lotto/public/register.php?ref=" . urlencode($referral_code);
+$referral_link = "http://localhost/lotto/public/register.php?ref=" . urlencode($referral_code);
 ?>
 
 <!DOCTYPE html>
@@ -87,10 +87,13 @@ $referral_link = "http://localhost/UNICOINWEB3/lotto/public/register.php?ref=" .
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>My Account</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-<div class="container my-4">
+<div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
     <h1>My Account</h1>
 
     <?php if ($message): ?>
@@ -105,8 +108,15 @@ $referral_link = "http://localhost/UNICOINWEB3/lotto/public/register.php?ref=" .
          <div class="mb-3">
             <label class="form-label">Your Referral Code</label>
             <input readonly class="form-control-plaintext" value="<?=htmlspecialchars($referral_code ?: 'Not available')?>" />
-            <input type="text" value="<?= $referral_link ?>" id="refLink" readonly>
-<button onclick="copyLink()">Copy</button>
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" value="<?= $referral_link ?>" id="refLink" readonly>
+                <button class="btn btn-warning" type="button" onclick="copyLink()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+</svg>
+                    Copy Link
+                </button>
+            </div>
 
 <script>
 function copyLink() {
@@ -162,6 +172,8 @@ function copyLink() {
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
 
+</div>
+</div>
 </div>
 <?php include '../includes/footer.php'; ?>
 </body>

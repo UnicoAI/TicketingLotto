@@ -32,6 +32,7 @@ $winner = $winnerRes->fetch_assoc();
 // Update lottery with winner info and deactivate lottery (optional)
 $mysqli->query("UPDATE lotteries SET is_active=0 WHERE id=$id");
 
+
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +45,18 @@ $mysqli->query("UPDATE lotteries SET is_active=0 WHERE id=$id");
 <body>
 <div class="container mt-4">
     <h2>Winner Drawn for Lottery: <?= htmlspecialchars($lottery['title']) ?></h2>
+    <?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success">
+        ✅ Winner drawn: Ticket #<?= htmlspecialchars($_GET['ticket_id']) ?> — User #<?= htmlspecialchars($_GET['user_id']) ?>
+    </div>
+<?php elseif (isset($_GET['error'])): ?>
+    <div class="alert alert-danger">
+        ⚠️ <?= htmlspecialchars($_GET['error']) === 'already_drawn' ? 'Winner already drawn.' :
+               ($_GET['error'] === 'no_tickets' ? 'No tickets sold for this lottery.' :
+               'Something went wrong.') ?>
+    </div>
+<?php endif; ?>
+
     <div class="alert alert-success">
         <h4>Winner:</h4>
         <p><strong>Name:</strong> <?= htmlspecialchars($winner['name']) ?></p>

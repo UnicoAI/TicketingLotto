@@ -10,7 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-function generateTicketNumber($lottery_id) {
+function generateTicketNumber($lottery_id)
+{
     return strtoupper($lottery_id . '-' . uniqid());
 }
 
@@ -96,148 +97,163 @@ if (!isset($order_saved) || !$order_saved) {
 }
 ?>
 
-<!-- ... Keep existing HTML/cart rendering exactly as you have it -->
+<div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+            <h2 class="mb-4 fw-bold text-primary">🛒 Your Cart</h2>
 
 
-<div class="container mt-5">
-    <h2 class="mb-4">Your Cart</h2>
+            <?php if (isset($order_saved) && $order_saved): ?>
+                <div class="alert alert-success font-semibold">✅ Your payment was successful! Order has been placed.</div>
+                <h4>🧾 Order Details:</h4>
+                <table class="table table-hover table-bordered align-middle text-center mt-3">
 
-    <?php if (isset($order_saved) && $order_saved): ?>
-        <div class="alert alert-success font-semibold">Your payment was successful! Order has been placed.</div>
-        <h4>Order Details:</h4>
-        <table class="table table-bordered align-middle text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Lottery</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($cart_items as $item): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($item['title']) ?></td>
-                        <td>£<?= number_format($item['price'], 2) ?></td>
-                        <td><?= $item['quantity'] ?></td>
-                        <td>£<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                    <td>£<?= number_format($total, 2) ?></td>
-                </tr>
-            </tfoot>
-        </table>
-        <a href="index.php" class="btn btn-primary">Continue Shopping</a>
-
-    <?php elseif (!empty($cart_items)): ?>
-        <form method="post" action="update_cart.php">
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle text-center">
-                    <thead class="table-dark">
+                    <thead>
                         <tr>
-                            <th>Image</th>
                             <th>Lottery</th>
                             <th>Price</th>
                             <th>Quantity</th>
-                            <th>Expiry Date</th>
                             <th>Total</th>
-                            <th>Remove</th>
                         </tr>
                     </thead>
-                    <tbody id="cart-table">
+                    <tbody>
                         <?php foreach ($cart_items as $item): ?>
-                            <tr data-id="<?= $item['id'] ?>" data-price="<?= $item['price'] ?>">
-                                <td>
-                                    <img src="<?= $item['photo'] ? '../' . htmlspecialchars($item['photo']) : 'https://via.placeholder.com/100x80' ?>" style="width: 100px;" />
-                                </td>
+                            <tr>
                                 <td><?= htmlspecialchars($item['title']) ?></td>
                                 <td>£<?= number_format($item['price'], 2) ?></td>
-                                <td>
-                                    <input type="number" name="quantities[<?= $item['id'] ?>]" class="form-control quantity-input" value="<?= $item['quantity'] ?>" min="1" style="width: 80px;" />
-                                </td>
-                                <td><?= htmlspecialchars($item['expiry_date']) ?></td>
-                                <td class="item-total">£<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
-                                <td>
-                                    <a href="remove_cart_item.php?id=<?= $item['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Remove this item?')">Remove</a>
-                                </td>
+                                <td><?= $item['quantity'] ?></td>
+                                <td>£<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5" class="text-end"><strong>Grand Total:</strong></td>
-                            <td id="grand-total">£<?= number_format($total, 2) ?></td>
-                            <td></td>
+                            <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
+                            <td>£<?= number_format($total, 2) ?></td>
                         </tr>
                     </tfoot>
                 </table>
-            </div>
+                <a href="index.php" class="btn btn-primary">Continue Shopping</a>
 
-            <div class="d-flex justify-content-start mt-4">
-                <button type="submit" class="btn btn-secondary">Update Cart</button>
-            </div>
-        </form>
+            <?php elseif (!empty($cart_items)): ?>
+                <form method="post" action="update_cart.php">
+                    <div class="table-responsive">
+                         <table class="table table-striped table-bordered align-middle text-center">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Lottery</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Expiry Date</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-table">
+                                <?php foreach ($cart_items as $item): ?>
+                                    <tr data-id="<?= $item['id'] ?>" data-price="<?= $item['price'] ?>">
+                                        <td>
+                                            <img src="<?= $item['photo'] ? '../' . htmlspecialchars($item['photo']) : 'https://via.placeholder.com/100x80' ?>"
+                                                style="width: 100px;" />
+                                        </td>
+                                        <td><?= htmlspecialchars($item['title']) ?></td>
+                                        <td>£<?= number_format($item['price'], 2) ?></td>
+                                        <td>
+                                            <input type="number" name="quantities[<?= $item['id'] ?>]"
+                                                class="form-control quantity-input" value="<?= $item['quantity'] ?>" min="1"
+                                                style="width: 80px;" />
+                                        </td>
+                                        <td><?= htmlspecialchars($item['expiry_date']) ?></td>
+                                        <td class="item-total">£<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                                        <td>
+                                            <a href="remove_cart_item.php?id=<?= $item['id'] ?>"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Remove this item?')">✖</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-end"><strong>Grand Total:</strong></td>
+                                    <td id="grand-total">£<?= number_format($total, 2) ?></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
-        <!-- PayPal payment form -->
-        <form id="paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" class="d-flex flex-column align-items-end mt-4">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="unicobuildings@contractor.net">
-            <input type="hidden" name="item_name" value="Lottery Ticket Purchase">
-            <input type="hidden" name="currency_code" value="GBP">
-            <input type="hidden" name="return" value="<?= htmlspecialchars('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?status=success') ?>">
-            <input type="hidden" name="cancel_return" value="<?= htmlspecialchars('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?status=cancelled') ?>">
-            <input type="hidden" name="custom" value="<?= $user_id ?>">
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="index.php" class="btn btn-outline-secondary">← Continue Shopping</a>
 
-            <label for="amount">Total Amount (GBP):</label>
-            <input type="text" name="amount" id="amount" readonly class="form-control bg-light rounded" value="<?= number_format($total, 2) ?>" style="width: 150px; text-align:right;">
+                        <button type="submit" class="btn btn-secondary">Update Cart</button>
+                    </div>
+                </form>
 
-            <div class="mt-2 d-flex align-items-center gap-2">
-                <img src="paypal.png" width="30px" alt="PayPal Icon">
-                <input type="submit" class="btn btn-primary" value="Pay Now">
-            </div>
-        </form>
+                <!-- PayPal payment form -->
+                <form id="paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+                    class="d-flex flex-column align-items-end mt-4">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="unicobuildings@contractor.net">
+                    <input type="hidden" name="item_name" value="Lottery Ticket Purchase">
+                    <input type="hidden" name="currency_code" value="GBP">
+                    <input type="hidden" name="return"
+                        value="<?= htmlspecialchars('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . '?status=success') ?>">
+                    <input type="hidden" name="cancel_return"
+                        value="<?= htmlspecialchars('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . '?status=cancelled') ?>">
+                    <input type="hidden" name="custom" value="<?= $user_id ?>">
 
-    <?php else: ?>
-        <div class="alert alert-info">No cart items.</div>
-    <?php endif; ?>
+                    <label for="amount">Total Amount (GBP):</label>
+                    <input type="text" name="amount" id="amount" readonly class="form-control bg-light rounded"
+                        value="<?= number_format($total, 2) ?>" style="width: 150px; text-align:right;">
 
-    <?php if (isset($_GET['status']) && $_GET['status'] === 'cancelled'): ?>
-        <div class="alert alert-danger mt-4">Transaction was canceled. Please try again.</div>
-    <?php endif; ?>
+                    <div class="mt-2 d-flex align-items-center gap-2">
+                        <img src="paypal.png" width="30px" alt="PayPal Icon">
+                        <input type="submit" class="btn btn-primary" value="Pay Now">
+                    </div>
+                </form>
+
+            <?php else: ?>
+                <div class="alert alert-info">No cart items.</div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] === 'cancelled'): ?>
+                <div class="alert alert-danger mt-4">Transaction was canceled. Please try again.</div>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const quantityInputs = document.querySelectorAll('.quantity-input');
-    const grandTotalEl = document.getElementById('grand-total');
-    const amountInput = document.getElementById('amount');
+    document.addEventListener('DOMContentLoaded', () => {
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        const grandTotalEl = document.getElementById('grand-total');
+        const amountInput = document.getElementById('amount');
 
-    function updateTotals() {
-        let total = 0;
-        document.querySelectorAll('#cart-table tr').forEach(row => {
-            const price = parseFloat(row.dataset.price);
-            const qtyInput = row.querySelector('.quantity-input');
-            let qty = parseInt(qtyInput.value);
-            if (isNaN(qty) || qty < 1) {
-                qty = 1;
-                qtyInput.value = 1;
-            }
-            const itemTotal = price * qty;
-            row.querySelector('.item-total').textContent = '£' + itemTotal.toFixed(2);
-            total += itemTotal;
+        function updateTotals() {
+            let total = 0;
+            document.querySelectorAll('#cart-table tr').forEach(row => {
+                const price = parseFloat(row.dataset.price);
+                const qtyInput = row.querySelector('.quantity-input');
+                let qty = parseInt(qtyInput.value);
+                if (isNaN(qty) || qty < 1) {
+                    qty = 1;
+                    qtyInput.value = 1;
+                }
+                const itemTotal = price * qty;
+                row.querySelector('.item-total').textContent = '£' + itemTotal.toFixed(2);
+                total += itemTotal;
+            });
+            grandTotalEl.textContent = '£' + total.toFixed(2);
+            amountInput.value = total.toFixed(2);
+        }
+
+        quantityInputs.forEach(input => {
+            input.addEventListener('input', updateTotals);
         });
-        grandTotalEl.textContent = '£' + total.toFixed(2);
-        amountInput.value = total.toFixed(2);
-    }
-
-    quantityInputs.forEach(input => {
-        input.addEventListener('input', updateTotals);
     });
-});
 </script>
 
 <?php include '../includes/footer.php'; ?>

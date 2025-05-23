@@ -64,9 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8" />
 <title>Add Lottery</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 <body>
-<div class="container mt-4">
+<div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-5">
     <h2>Add New Lottery</h2>
     <a href="lotteries.php" class="btn btn-secondary mb-3">Back to Lotteries</a>
     <?php if (!empty($error)): ?>
@@ -118,6 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit" class="btn btn-primary">Add Lottery</button>
     </form>
+</div>
+</div>
 </div>
 </body>
 </html>

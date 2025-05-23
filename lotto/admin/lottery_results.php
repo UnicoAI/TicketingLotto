@@ -1,11 +1,5 @@
 <?php
 include '../config/connection.php';
-include '../includes/header.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
 
 $limit = 10;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -27,6 +21,14 @@ $query = "
 ";
 $results = mysqli_query($conn, $query);
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lottery Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <div class="container my-5">
     <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
@@ -78,5 +80,5 @@ $results = mysqli_query($conn, $query);
         </div>
     </div>
 </div>
-
-<?php include '../includes/footer.php'; ?>
+</body>
+</html>

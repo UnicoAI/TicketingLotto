@@ -88,10 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <title>Edit Lottery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="container mt-4">
+  <div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-5">
         <h2>Edit Lottery</h2>
         <a href="lotteries.php" class="btn btn-secondary mb-3">Back to Lotteries</a>
         <?php if (!empty($error)): ?>
@@ -114,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="tech-and-luxury" <?= (($_POST['category'] ?? $lottery['category']) == 'tech-and-luxury') ? 'selected' : '' ?>>Tech and Luxury</option>
                 </select>
             </div>
-        </div>
+       
             <div class="mb-3">
                 <label class="form-label">Description</label>
                 <textarea name="description"
@@ -123,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label class="form-label">Current Photo</label><br />
                <?php if ($lottery['photo']): ?>
-            <img src="../<?= htmlspecialchars($lottery['photo']) ?>" class="card-img-top" alt="Lottery photo">
+            <img src="../<?= htmlspecialchars($lottery['photo']) ?>" class="card-img-top" alt="Lottery photo" style="max-width: 200px; max-height: 150px; object-fit: cover;">
             <?php endif; ?>
             </div>
             <div class="mb-3">
@@ -146,6 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     value="<?= htmlspecialchars($_POST['expiry_date'] ?? $lottery['expiry_date']) ?>" /> </div>
                     <button type="submit" class="btn btn-primary">Update Lottery</button>
         </form>
+    </div>
+    </div>
     </div>
 </body>
 

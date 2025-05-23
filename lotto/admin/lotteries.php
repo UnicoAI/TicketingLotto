@@ -42,6 +42,7 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
 <meta charset="UTF-8" />
 <title>Manage Lotteries</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 <style>
     .thumbnail {
         max-width: 100px;
@@ -50,11 +51,17 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
 </style>
 </head>
 <body>
-<div class="container mt-4">
-    <h2>Lotteries Management</h2>
+<div class="container my-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+            <h1 class="mb-4 fw-bold text-primary">Lotteries Management</h1>
     <a href="index.php" class="btn btn-secondary mb-3">Back to Dashboard</a>
     <a href="lottery_add.php" class="btn btn-success mb-3">Add Lottery</a>
-    <table class="table table-bordered table-striped">
+
+    
+    <div class="table-responsive">
+                <table class="table table-hover table-bordered text-center align-middle">
+                    <thead class="table-primary">
         <thead><tr>
             <th>ID</th>
             <th>Photo</th>
@@ -62,7 +69,7 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
             <th>Category</th>
             <th>Price</th>
             <th>Winning Price</th>
-            <th>Goal (Money to Raise)</th>
+            <th>Money to Raise</th>
             <th>Total Raised</th>
             <th>Active</th>
             <th>Created At</th>
@@ -101,17 +108,29 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
                 <td><?= htmlspecialchars($lottery['created_at']) ?></td>
                 <td><?= htmlspecialchars($lottery['expiry_date']) ?></td>
                 <td>
-                    <a href="lottery_edit.php?id=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="lottery_draw.php?id=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-info">Draw Winner</a>
-                    <a href="?toggle_active=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-warning">
-                        <?= $lottery['is_active'] ? 'Deactivate' : 'Activate' ?>
-                    </a>
-                    <a href="?delete=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this lottery?')">Delete</a>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <a href="lottery_edit.php?id=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-primary" title="Edit">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a href="draw_winner.php?id=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-info text-white" title="Draw Winner">
+                            <i class="bi bi-trophy"></i> Draw
+                        </a>
+                        <a href="?toggle_active=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-warning" title="<?= $lottery['is_active'] ? 'Deactivate' : 'Activate' ?>">
+                            <i class="bi <?= $lottery['is_active'] ? 'bi-toggle-on' : 'bi-toggle-off' ?>"></i>
+                            <?= $lottery['is_active'] ? 'Deactivate' : 'Activate' ?>
+                        </a>
+                        <a href="?delete=<?= (int)$lottery['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this lottery?')" title="Delete">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
                 </td>
             </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
 </div>
 </body>
 </html>

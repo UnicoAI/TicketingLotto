@@ -1,6 +1,9 @@
 <?php
-include '../config/connection.php';
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 session_start();
+
+include '../config/connection.php';
+
 
 // Get referral from link (if any)
 $referred_by_code = isset($_GET['ref']) ? mysqli_real_escape_string($conn, $_GET['ref']) : null;
@@ -44,7 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <?php include '../includes/header.php'; ?>
-
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="width: 320px;">
+       
+     
+   
 <h2>Register</h2>
 
 <?php if (!empty($error)) { ?>
@@ -76,5 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
-
+<p class="mt-3">Already have an account? <a href="login.php">Login</a></p>
+ <p>
+        <a href="../index.php">
+            <i class="bi bi-house-door"></i>Home
+        </a>
+    </p>
+ </div>
+ </div>
 <?php include '../includes/footer.php'; ?>
