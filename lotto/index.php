@@ -1,3 +1,4 @@
 <?php
-// Placeholder
+header("Location: public/lotteries.php");
+exit;
 ?>
