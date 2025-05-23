@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price = (float)($_POST['price'] ?? 0);
     $winning_price = (float) ($_POST['winning_price'] ?? 0);
     $money_to_raise = (float) ($_POST['money_to_raise'] ?? 0);
+     $category = $_POST['category'] ?? '';
          $expiry_date = $_POST['expiry_date'] ?? null;  // New expiry date field
 
     if (!$title || $winning_price <= 0 || $money_to_raise <= 0) {
@@ -67,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($error)) {
-        $stmt = $mysqli->prepare("UPDATE lotteries SET title = ?, description = ?, photo = ?, price = ?, winning_price = ?, money_to_raise = ?, expiry_date = ? WHERE id = ?");
-        $stmt->bind_param("sssdddsi", $title, $description, $photoPath, $price, $winning_price, $money_to_raise, $expiry_date, $id);
+        $stmt = $mysqli->prepare("UPDATE lotteries SET title = ?, category = ?, description = ?, photo = ?, price = ?, winning_price = ?, money_to_raise = ?, expiry_date = ? WHERE id = ?");
+        $stmt->bind_param("ssssdddsi", $title, $category, $description, $photoPath, $price, $winning_price, $money_to_raise, $expiry_date, $id);
         if ($stmt->execute()) {
             header("Location: lotteries.php");
             exit;
@@ -102,6 +103,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="title" class="form-control" required
                     value="<?= htmlspecialchars($_POST['title'] ?? $lottery['title']) ?>" />
             </div>
+            <div class="mb-3">
+                <label class="form-label">Category *</label>
+                <select name="category" class="form-select" required>
+                    <option value="">Select category</option>
+                    <option value="ending-soon" <?= (($_POST['category'] ?? $lottery['category']) == 'ending-soon') ? 'selected' : '' ?>>Ending Soon</option>
+                    <option value="instant-wins" <?= (($_POST['category'] ?? $lottery['category']) == 'instant-wins') ? 'selected' : '' ?>>Instant Wins</option>
+                    <option value="cars-and-bikes" <?= (($_POST['category'] ?? $lottery['category']) == 'cars-and-bikes') ? 'selected' : '' ?>>Cars &amp; Bikes</option>
+                    <option value="cash" <?= (($_POST['category'] ?? $lottery['category']) == 'cash') ? 'selected' : '' ?>>Cash</option>
+                    <option value="tech-and-luxury" <?= (($_POST['category'] ?? $lottery['category']) == 'tech-and-luxury') ? 'selected' : '' ?>>Tech and Luxury</option>
+                </select>
+            </div>
+        </div>
             <div class="mb-3">
                 <label class="form-label">Description</label>
                 <textarea name="description"

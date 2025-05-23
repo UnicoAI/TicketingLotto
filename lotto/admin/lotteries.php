@@ -59,6 +59,7 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
             <th>ID</th>
             <th>Photo</th>
             <th>Title</th>
+            <th>Category</th>
             <th>Price</th>
             <th>Winning Price</th>
             <th>Goal (Money to Raise)</th>
@@ -78,6 +79,8 @@ $res = $mysqli->query("SELECT * FROM lotteries ORDER BY created_at DESC");
             <?php endif; ?>
                 </td>
                 <td><?= htmlspecialchars($lottery['title']) ?></td>
+                <td><?= htmlspecialchars($lottery['category']) ?></td>
+                
                   <td>$<?= number_format($lottery['price'], 2) ?></td>
                 <td>$<?= number_format($lottery['winning_price'], 2) ?></td>
                 <td>
